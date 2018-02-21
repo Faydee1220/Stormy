@@ -1,5 +1,6 @@
 package com.rq.stormy;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -93,6 +94,11 @@ public class CurrentWeather {
 
     public double getTemperature() {
         return temperature;
+    }
+
+    public String getFormattedTemperature() {
+        DecimalFormat df = new DecimalFormat("#.#");
+        return df.format(temperature);
     }
 
     public void setTemperature(double temperature) {
