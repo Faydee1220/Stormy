@@ -92,8 +92,8 @@ public class CurrentWeather {
         this.time = time;
     }
 
-    public double getTemperature() {
-        return temperature;
+    public int getTemperature() {
+        return (int) Math.round(temperature);
     }
 
     public String getFormattedTemperature() {
@@ -113,8 +113,9 @@ public class CurrentWeather {
         this.humidity = humidity;
     }
 
-    public double getPrecipProbability() {
-        return precipProbability;
+    public int getPrecipProbability() {
+        double percentage = precipProbability * 100;
+        return (int) Math.round(percentage);
     }
 
     public void setPrecipProbability(double precipProbability) {
