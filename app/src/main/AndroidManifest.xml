@@ -3,6 +3,8 @@
     package="com.rq.stormy">
     <!--有使用到網路連線時需要加此 permission-->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
 
     <application
         android:allowBackup="true"
