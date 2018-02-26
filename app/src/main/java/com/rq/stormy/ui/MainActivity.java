@@ -1,4 +1,4 @@
-package com.rq.stormy;
+package com.rq.stormy.ui;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.rq.stormy.R;
 import com.rq.stormy.weather.Current;
 
 import org.json.JSONException;
@@ -132,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
             progressBar.setVisibility(View.INVISIBLE);
             refreshImageView.setVisibility(View.VISIBLE);
         }
-
     }
 
     @OnClick(R.id.refreshImageView) void refresh() {
@@ -151,7 +151,6 @@ public class MainActivity extends AppCompatActivity {
 
         Drawable drawable = getResources().getDrawable(current.getIconId());
         iconImageView.setImageDrawable(drawable);
-
     }
 
     private Current getCurrentDetails(String jsonData) throws JSONException {

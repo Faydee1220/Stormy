@@ -9,7 +9,7 @@
     android:paddingRight="32dp"
     android:paddingTop="16dp"
     android:paddingBottom="16dp"
-    tools:context="com.rq.stormy.MainActivity">
+    tools:context="com.rq.stormy.ui.MainActivity">
 
     <TextView
         android:id="@+id/temperatureTextView"
