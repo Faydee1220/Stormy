@@ -1,4 +1,6 @@
-package com.rq.stormy;
+package com.rq.stormy.weather;
+
+import com.rq.stormy.R;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -9,7 +11,7 @@ import java.util.TimeZone;
  * Created by Faydee on 2018/2/21.
  */
 // Data Model
-public class CurrentWeather {
+public class Current {
     private String icon;
     private long time;
     private double temperature;

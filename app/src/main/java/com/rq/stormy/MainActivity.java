@@ -13,6 +13,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.rq.stormy.weather.Current;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,7 +31,7 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
     public final static String TAG = MainActivity.class.getSimpleName();
-    private CurrentWeather currentWeather;
+    private Current current;
 
     @BindView(R.id.progressBar) ProgressBar progressBar;
     @BindView(R.id.refreshImageView) ImageView refreshImageView;
@@ -98,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                         String jsonData = response.body().string();
                         Log.v(TAG, jsonData);
                         if (response.isSuccessful()) {
-                            currentWeather = getCurrentDetails(jsonData);
+                            current = getCurrentDetails(jsonData);
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -138,21 +140,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateDisplay() {
-        locationTextView.setText(currentWeather.getTimezone());
-        String time = "At " + currentWeather.getFormattedTime() + " it will be";
+        locationTextView.setText(current.getTimezone());
+        String time = "At " + current.getFormattedTime() + " it will be";
         timeTextView.setText(time);
-        temperatureTextView.setText(String.valueOf(currentWeather.getTemperature()));
-        humidityValueTextView.setText(String.valueOf(currentWeather.getHumidity()));
-        String precipitation = String.valueOf(currentWeather.getPrecipProbability() + "%");
+        temperatureTextView.setText(String.valueOf(current.getTemperature()));
+        humidityValueTextView.setText(String.valueOf(current.getHumidity()));
+        String precipitation = String.valueOf(current.getPrecipProbability() + "%");
         precipitationValueTextView.setText(precipitation);
-        summaryTextView.setText(currentWeather.getSummary());
+        summaryTextView.setText(current.getSummary());
 
-        Drawable drawable = getResources().getDrawable(currentWeather.getIconId());
+        Drawable drawable = getResources().getDrawable(current.getIconId());
         iconImageView.setImageDrawable(drawable);
 
     }
 
-    private CurrentWeather getCurrentDetails(String jsonData) throws JSONException {
+    private Current getCurrentDetails(String jsonData) throws JSONException {
         JSONObject forecast = new JSONObject(jsonData);
         String timezone = forecast.getString("timezone");
         Log.i(TAG,"From JSON:" + timezone);
@@ -165,18 +167,18 @@ public class MainActivity extends AppCompatActivity {
         double precipProbability = currently.getDouble("precipProbability");
         String summary = currently.getString("summary");
 
-        CurrentWeather currentWeather = new CurrentWeather();
-        currentWeather.setIcon(icon);
-        currentWeather.setTime(time);
-        currentWeather.setTemperature(temperature);
-        currentWeather.setHumidity(humidity);
-        currentWeather.setPrecipProbability(precipProbability);
-        currentWeather.setSummary(summary);
-        currentWeather.setTimezone(timezone);
+        Current current = new Current();
+        current.setIcon(icon);
+        current.setTime(time);
+        current.setTemperature(temperature);
+        current.setHumidity(humidity);
+        current.setPrecipProbability(precipProbability);
+        current.setSummary(summary);
+        current.setTimezone(timezone);
 
-        Log.d(TAG,currentWeather.getFormattedTime());
+        Log.d(TAG, current.getFormattedTime());
 
-        return currentWeather;
+        return current;
     }
 
     private boolean isNetworkAvailable() {
