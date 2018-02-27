@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -38,6 +39,7 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
     public final static String TAG = MainActivity.class.getSimpleName();
+    public final static String DAILY_FORECAST = "DAILY_FORECAST";
     private Forecast forecast;
 
     @BindView(R.id.progressBar) ProgressBar progressBar;
@@ -49,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.humidityValueTextView) TextView humidityValueTextView;
     @BindView(R.id.precipitationValueTextView) TextView precipitationValueTextView;
     @BindView(R.id.summaryTextView) TextView summaryTextView;
+    @BindView(R.id.hourlyButton) Button hourlyButton;
+    @BindView(R.id.dailyButton) Button dailyButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,10 +137,19 @@ public class MainActivity extends AppCompatActivity {
         if (progressBar.getVisibility() == View.INVISIBLE) {
             progressBar.setVisibility(View.VISIBLE);
             refreshImageView.setVisibility(View.INVISIBLE);
+
+            /* make buttons invisible as data is loading, this prevents app crash if button is
+       pressed before the weather data is available */
+            hourlyButton.setVisibility(View.INVISIBLE);
+            dailyButton.setVisibility(View.INVISIBLE);
         }
         else {
             progressBar.setVisibility(View.INVISIBLE);
             refreshImageView.setVisibility(View.VISIBLE);
+
+            // show the buttons when the weather data is available
+            hourlyButton.setVisibility(View.VISIBLE);
+            dailyButton.setVisibility(View.VISIBLE);
         }
     }
 
@@ -250,6 +263,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.dailyButton) void startDailyActivity() {
         Intent intent = new Intent(this, DailyForecastActivity.class);
+        intent.putExtra(DAILY_FORECAST, forecast.getDailyForecast());
         startActivity(intent);
     }
 

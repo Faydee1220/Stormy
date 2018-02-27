@@ -1,6 +1,7 @@
 package com.rq.stormy.adapters;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +61,7 @@ public class DayAdapter extends BaseAdapter {
             // view group root 沒用到時放 null
             convertView = LayoutInflater.from(context).inflate(R.layout.daily_list_item, null);
             holder = new ViewHolder();
+            holder.circleImageView = convertView.findViewById(R.id.circleImageView);
             holder.iconImageView = convertView.findViewById(R.id.iconImageView);
             holder.temperatureTextView = convertView.findViewById(R.id.temperatureTextView);
             holder.dayNameTextView = convertView.findViewById(R.id.dayNameTextView);
@@ -70,6 +72,7 @@ public class DayAdapter extends BaseAdapter {
         }
 
         Day day = days[position];
+        holder.circleImageView.setImageResource(R.drawable.bg_temperature);
         holder.iconImageView.setImageResource(day.getIconId());
         holder.temperatureTextView.setText(String.valueOf(day.getTemperatureMax()));
         holder.dayNameTextView.setText(day.getDayOfTheWeek());
@@ -78,6 +81,7 @@ public class DayAdapter extends BaseAdapter {
     }
 
     private static class ViewHolder {
+        ImageView circleImageView;
         ImageView iconImageView; // public by default
         TextView temperatureTextView;
         TextView dayNameTextView;

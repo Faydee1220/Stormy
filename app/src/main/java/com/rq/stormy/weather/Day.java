@@ -1,5 +1,9 @@
 package com.rq.stormy.weather;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -8,12 +12,16 @@ import java.util.TimeZone;
  * Created by Faydee on 2018/2/26.
  */
 
-public class Day {
+public class Day implements Parcelable {
+    public static final String TAG = Day.class.getSimpleName();
     private long time;
     private String summary;
     private double temperatureMax;
     private String icon;
     private String timezone;
+
+    public Day() {
+    }
 
     public long getTime() {
         return time;
@@ -32,7 +40,9 @@ public class Day {
     }
 
     public int getTemperatureMax() {
-        return (int) Math.round(temperatureMax);
+        int temperature = (int) Math.round(temperatureMax);
+        Log.d(TAG, String.valueOf(temperature));
+        return temperature;
     }
 
     public void setTemperatureMax(double temperatureMax) {
@@ -66,4 +76,40 @@ public class Day {
         Date date = new Date(time * 1000);
         return formatter.format(date);
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    // dest 代表 destination
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(time);
+        dest.writeString(summary);
+        dest.writeDouble(temperatureMax);
+        dest.writeString(icon);
+        dest.writeString(timezone);
+    }
+
+    protected Day(Parcel in) {
+        // 要和 writeToParcel 的順序相同
+        time = in.readLong();
+        summary = in.readString();
+        temperatureMax = in.readDouble();
+        icon = in.readString();
+        timezone = in.readString();
+    }
+
+    public static final Creator<Day> CREATOR = new Creator<Day>() {
+        @Override
+        public Day createFromParcel(Parcel in) {
+            return new Day(in);
+        }
+
+        @Override
+        public Day[] newArray(int size) {
+            return new Day[size];
+        }
+    };
 }

@@ -28,7 +28,8 @@
         android:layout_toEndOf="@+id/circleImageView"
         android:contentDescription="@string/icon_image"
         app:srcCompat="@drawable/clear_day"
-        android:paddingStart="10dp"/>
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"/>
 
     <TextView
         android:id="@+id/dayNameTextView"
@@ -39,10 +40,11 @@
         android:textColor="@android:color/white"
         android:textSize="20sp"
         tools:text="Wendsday"
-        android:paddingStart="10dp"/>
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"/>
 
     <TextView
-        android:id="@+id/TemperatureTextView"
+        android:id="@+id/temperatureTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/circleImageView"
