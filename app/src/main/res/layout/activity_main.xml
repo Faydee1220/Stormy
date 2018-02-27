@@ -4,11 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFC970B"
+    android:background="@drawable/bg_gradient"
     android:paddingLeft="32dp"
     android:paddingRight="32dp"
     android:paddingTop="16dp"
-    android:paddingBottom="16dp"
     tools:context="com.rq.stormy.ui.MainActivity">
 
     <TextView
@@ -153,5 +152,32 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:visibility="invisible" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/hourlyButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#40FFFFFF"
+            android:text="HOURLY"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/dailyButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_weight="1"
+            android:background="#40FFFFFF"
+            android:text="7 DAY"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
 
 </RelativeLayout>

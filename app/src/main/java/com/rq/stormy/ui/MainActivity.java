@@ -15,7 +15,12 @@ import android.widget.Toast;
 
 import com.rq.stormy.R;
 import com.rq.stormy.weather.Current;
+import com.rq.stormy.weather.Day;
+import com.rq.stormy.weather.Forecast;
+import com.rq.stormy.weather.Day;
+import com.rq.stormy.weather.Hour;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,7 +37,7 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
     public final static String TAG = MainActivity.class.getSimpleName();
-    private Current current;
+    private Forecast forecast;
 
     @BindView(R.id.progressBar) ProgressBar progressBar;
     @BindView(R.id.refreshImageView) ImageView refreshImageView;
@@ -101,11 +106,10 @@ public class MainActivity extends AppCompatActivity {
                         String jsonData = response.body().string();
                         Log.v(TAG, jsonData);
                         if (response.isSuccessful()) {
-                            current = getCurrentDetails(jsonData);
+                            forecast = parseForecastDetails(jsonData);
                             runOnUiThread(new Runnable() {
                                 @Override
-                                public void run() {
-                                    updateDisplay();
+                                public void run() {updateDisplay();
                                 }
                             });
                         }
@@ -140,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateDisplay() {
+        Current current = forecast.getCurrent();
         locationTextView.setText(current.getTimezone());
         String time = "At " + current.getFormattedTime() + " it will be";
         timeTextView.setText(time);
@@ -151,6 +156,53 @@ public class MainActivity extends AppCompatActivity {
 
         Drawable drawable = getResources().getDrawable(current.getIconId());
         iconImageView.setImageDrawable(drawable);
+    }
+
+    private Forecast parseForecastDetails(String jsonData) throws JSONException {
+        Forecast forecast = new Forecast();
+        forecast.setCurrent(getCurrentDetails(jsonData));
+        forecast.setHourlyForecast(getHourlyForecast(jsonData));
+        forecast.setDailyForecast(getDailyForecast(jsonData));
+        return forecast;
+    }
+
+    private Day[] getDailyForecast(String jsonData) throws JSONException {
+        JSONObject forecast = new JSONObject(jsonData);
+        String timezone = forecast.getString("timezone");
+        JSONObject daily = forecast.getJSONObject("daily");
+        JSONArray data = daily.getJSONArray("data");
+        Day[] days = new Day[data.length()];
+        for (int i = 0; i < days.length; i += 1) {
+            JSONObject jasonDay = data.getJSONObject(i);
+            Day day = new Day();
+            day.setSummary(jasonDay.getString("summary"));
+            day.setTemperatureMax(jasonDay.getDouble("temperatureMax"));
+            day.setIcon(jasonDay.getString("icon")  );
+            day.setTime(jasonDay.getLong("time"));
+            day.setTimezone(timezone);
+            days[i] = day;
+        }
+        return days;
+    }
+
+    private Hour[] getHourlyForecast(String jsonData) throws JSONException {
+        JSONObject forecast = new JSONObject(jsonData);
+        String timezone = forecast.getString("timezone");
+        JSONObject hourly = forecast.getJSONObject("hourly");
+        JSONArray data = hourly.getJSONArray("data");
+        Hour[] hours = new Hour[data.length()];
+        for (int i = 0; i < hours.length; i += 1) {
+            JSONObject jsonHour = data.getJSONObject(i);
+            Hour hour = new Hour();
+            hour.setSummary(jsonHour.getString("summary"));
+            hour.setTemperature(jsonHour.getDouble("temperature"));
+            hour.setIcon(jsonHour.getString("icon"));
+            hour.setTime(jsonHour.getLong("time"));
+            hour.setTimezone(timezone);
+            hours[i] = hour;
+        }
+
+        return hours;
     }
 
     private Current getCurrentDetails(String jsonData) throws JSONException {
