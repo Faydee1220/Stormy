@@ -2,6 +2,11 @@ package com.rq.stormy.weather;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created by Faydee on 2018/2/26.
@@ -14,8 +19,7 @@ public class Hour implements Parcelable {
     private String icon;
     private String timezone;
 
-    public Hour() {
-    }
+    public Hour() {}
 
     public long getTime() {
         return time;
@@ -33,8 +37,8 @@ public class Hour implements Parcelable {
         this.summary = summary;
     }
 
-    public double getTemperature() {
-        return temperature;
+    public int getTemperature() {
+        return (int) Math.round(temperature);
     }
 
     public void setTemperature(double temperature) {
@@ -43,6 +47,10 @@ public class Hour implements Parcelable {
 
     public String getIcon() {
         return icon;
+    }
+
+    public int getIconId() {
+        return Forecast.getIconId(icon);
     }
 
     public void setIcon(String icon) {
@@ -55,6 +63,13 @@ public class Hour implements Parcelable {
 
     public void setTimezone(String timezone) {
         this.timezone = timezone;
+    }
+
+    public String getHour() {
+        SimpleDateFormat formatter = new SimpleDateFormat("h a");
+        formatter.setTimeZone(TimeZone.getTimeZone(timezone));
+        Date date = new Date(time * 1000);
+        return formatter.format(date);
     }
 
     @Override

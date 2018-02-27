@@ -41,7 +41,7 @@ public class Day implements Parcelable {
 
     public int getTemperatureMax() {
         int temperature = (int) Math.round(temperatureMax);
-        Log.d(TAG, String.valueOf(temperature));
+//        Log.d(TAG, String.valueOf(temperature));
         return temperature;
     }
 
