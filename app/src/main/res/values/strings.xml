@@ -16,4 +16,6 @@
     <string name="stormy_with_a_chance_of_meatballs">...</string>
     <string name="refresh_button">refresh button</string>
     <string name="no_daily_forecast_data">There is no data to display.</string>
+    <string name="circle_image">circle image</string>
+    <string name="icon_image">icon image</string>
 </resources>
