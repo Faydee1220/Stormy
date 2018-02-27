@@ -40,6 +40,7 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
     public final static String TAG = MainActivity.class.getSimpleName();
     public final static String DAILY_FORECAST = "DAILY_FORECAST";
+    public final static String HOURLY_FORECAST = "HOURLY_FORECAST";
     private Forecast forecast;
 
     @BindView(R.id.progressBar) ProgressBar progressBar;
@@ -267,7 +268,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
+    @OnClick(R.id.hourlyButton) void startHourlyActivity() {
+        Intent intent = new Intent(this, HourlyForecastActivity.class);
+        intent.putExtra(HOURLY_FORECAST, forecast.getHourlyForecast());
+        startActivity(intent);
+    }
 
 
 
