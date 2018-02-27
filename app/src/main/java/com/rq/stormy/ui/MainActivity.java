@@ -1,6 +1,7 @@
 package com.rq.stormy.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -139,10 +140,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.refreshImageView) void refresh() {
-        apiGetForecast();
-    }
-
     private void updateDisplay() {
         Current current = forecast.getCurrent();
         locationTextView.setText(current.getTimezone());
@@ -246,4 +243,21 @@ public class MainActivity extends AppCompatActivity {
         AlertDialogFragment dialog = new AlertDialogFragment();
         dialog.show(getFragmentManager(), "error_dialog");
     }
+
+    @OnClick(R.id.refreshImageView) void refresh() {
+        apiGetForecast();
+    }
+
+    @OnClick(R.id.dailyButton) void startDailyActivity() {
+        Intent intent = new Intent(this, DailyForecastActivity.class);
+        startActivity(intent);
+    }
+
+
+
+
+
+
+
+
 }
