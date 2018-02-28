@@ -1,11 +1,13 @@
 package com.rq.stormy.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.rq.stormy.R;
 import com.rq.stormy.weather.Hour;
@@ -20,12 +22,14 @@ import butterknife.ButterKnife;
 public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder> {
 
     private Hour[] hours;
+    private Context context;
 
-    public HourAdapter(Hour[] hours) {
+    public HourAdapter(Context context, Hour[] hours) {
+        this.context = context;
         this.hours = hours;
     }
 
-    public class HourViewHolder extends RecyclerView.ViewHolder {
+    public class HourViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.timeTextView) TextView timeTextView;
         @BindView(R.id.summaryTextView) TextView summaryTextView;
@@ -35,6 +39,7 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
         public HourViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
         }
 
         public void bindHour(Hour hour) {
@@ -42,6 +47,18 @@ public class HourAdapter extends RecyclerView.Adapter<HourAdapter.HourViewHolder
             summaryTextView.setText(hour.getSummary());
             temperatureTextView.setText(String.valueOf(hour.getTemperature()));
             iconImageView.setImageResource(hour.getIconId());
+        }
+
+        @Override
+        public void onClick(View v) {
+            String time = timeTextView.getText().toString();
+            String temperature = temperatureTextView.getText().toString();
+            String summary = summaryTextView.getText().toString();
+            String message = String.format("At %s it wil be %s and %s",
+                    time,
+                    temperature,
+                    summary);
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show();
         }
     }
 
